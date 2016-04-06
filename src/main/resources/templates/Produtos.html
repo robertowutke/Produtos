@@ -1,0 +1,106 @@
+<html>
+<head>
+	<link rel="stylesheet" href="css/bootstrap.css"/>
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/bootstrap-theme.css"/>
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="backgroung-gray">
+	<div class="container">
+	<div class="size">
+		<header>
+			<h4 th:inline="text">
+				Logado com: [[${#httpServletRequest.remoteUser}]]
+				<div class="side-right">
+					<form th:action="@{/logout}" method="post">
+						<input type="submit" value="Logout" class="btn btn-danger"/>
+					</form>
+				</div>
+			</h4>
+		</header>
+		<br/>
+		<div class="panel panel-default">
+			<ul class="nav nav-tabs">
+				<li role="presentation">
+					<a href="/pedido">
+						<span class="glyphicon glyphicon-pencil"/>
+						Realizar Pedido
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="/itemPedido2">
+						<span class="glyphicon glyphicon-duplicate"/>
+						Acompanhar pedido
+					</a>
+				</li>
+				<li role="presentation" class="active">
+					<a href="/produto">
+						<span class="glyphicon glyphicon-list"/>
+						Listar / Cadastrar Produtos
+					</a>
+				</li>
+			</ul>
+			<h3 class = "list-group-item active">Produtos</h3>
+			<div class="panel-body">
+				<form method="post" action="/produto/save">
+					<fieldset>
+	                	<legend>Cadastrar um produto</legend>					
+						<div class="form-group">
+							<input type="hidden" name="id" th:value="${produto.id}"/>
+							<label>Descrição:</label> <input type="text" name="descItem"
+								class="form-control" th:value="${produto.descItem}"/>
+							<label>Fabricante:</label> <input type="text" name="fabricante"
+								class="form-control" th:value="${produto.fabricante}"/>
+							<label>Quantidade:</label> <input type="number" name="qtd"
+								class="form-control" th:value="${produto.qtd}"/>
+							<label>Preço:</label>
+							<div class="input-group">
+	  							<span class="input-group-addon">R$</span>
+	  							<input type="number" class="form-control" name="precoItem" th:value="${produto.precoItem}"/>
+	  						</div>
+						</div>
+						<button type="submit" class="btn .btn-primary">Salvar</button>
+					</fieldset>
+				</form>
+				<div class="panel panel-default">  
+  					<div class="panel-heading">Lista de produtos</div>					
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Número</th>
+								<th>Descrição</th>
+								<th>Fabricante</th>
+								<th>Quantidade</th>
+								<th>Preço</th>
+								<th>Editar</th>
+								<th>Excluir</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="produto:${produtos}">
+								<td th:text="${produto.id}"></td>
+								<td th:text="${produto.descItem}"></td>
+								<td th:text="${produto.fabricante}"></td>
+								<td th:text="${produto.qtd}"></td>
+								<td th:text="${produto.precoItem}"></td>
+								<td>
+									<a th:href="@{/produto(id=${produto.id})}" class="btn btn-info">
+										<span class="glyphicon glyphicon-pencil"/>
+									</a>
+								</td>
+								<td>
+									<a th:href="@{/produto/del(id=${produto.id})}"  class="btn btn-danger">
+										<span class="glyphicon glyphicon-remove"/>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

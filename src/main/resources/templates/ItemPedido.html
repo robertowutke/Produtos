@@ -1,0 +1,69 @@
+<html>
+<head>
+	<link rel="stylesheet" href="css/bootstrap.css"/>
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/bootstrap-theme.css"/>
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="backgroung-gray">
+	<div class="container">
+	<div class="size">
+		<header>
+			<h4 th:inline="text">
+				Logado com: [[${#httpServletRequest.remoteUser}]]
+				<div class="side-right">
+					<form th:action="@{/logout}" method="post">
+						<input type="submit" value="Logout" class="btn btn-danger"/>
+					</form>
+				</div>
+			</h4>
+		</header>
+		<br/>
+		<div class="panel panel-default">
+			<ul class="nav nav-tabs">
+				<li role="presentation" class="active">
+					<a href="/pedido">
+						<span class="glyphicon glyphicon-pencil"/>
+						Realizar Pedido
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="/itemPedido2">
+						<span class="glyphicon glyphicon-duplicate"/>
+						Acompanhar pedido
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="/produto">
+						<span class="glyphicon glyphicon-list"/>
+						Listar / Cadastrar Produtos
+					</a>
+				</li>
+			</ul>
+			<h3 class = "list-group-item active">Pedidos</h3>
+			<div class="panel-body">
+				<form class="form" method="post" action="/itemPedido/save">
+				<fieldset>
+	                <legend>Cadastrar um pedido</legend>
+					<div class="form-group">
+						<label for="nome">Pedido:</label>
+						<input type="text" class="form-control" name="pedido" readonly="readonly" th:value="${pedido.id}"/>
+						<label>Produto:</label>
+						<select class="selectpicker" name="item">
+						      <option th:each="item:${itens}" th:text="${item.descItem}" 
+						      th:value="${item.id}"/>
+						</select><br/>
+						<div class="form-error" th:if="${param.error}">Quantidade em estoque não é suficiente</div>
+						<label>Quantidade:</label>
+						<input type="text" name="qtdItem" class="form-control"/>
+					</div>
+					<button type="submit" class="btn .btn-primary">Salvar</button>
+				</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
